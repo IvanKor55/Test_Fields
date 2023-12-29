@@ -27,7 +27,7 @@ public class Util {
                 // Другие настройки Hibernate
                 settings.put(Environment.SHOW_SQL, "true");
                 settings.put(Environment.FORMAT_SQL,"true");
-                settings.put(Environment.HBM2DDL_AUTO, "create");
+                settings.put(Environment.HBM2DDL_AUTO, "none");
 
                 configuration.setProperties(settings);
                 configuration.addAnnotatedClass(Test.class);

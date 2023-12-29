@@ -5,9 +5,24 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
+import javax.persistence.Query;
+
 public class Main {
     public static void main(String[] args) {
         SessionFactory sessionFactory = Util.getMySessionFactory();
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = session.beginTransaction();
+            String create_test_table = """
+                              CREATE TABLE IF NOT EXISTS TEST(
+                                     id SERIAL PRIMARY KEY,
+                                     FINAL_STRING VARCHAR(50));
+                              """;
+            Query query = session.createSQLQuery(create_test_table).addEntity(Test.class);
+            query.executeUpdate();
+            transaction.commit();
+        } catch (HibernateException e) {
+            throw new RuntimeException(e);
+        }
         Test t1 = new Test();
         Test t2 = new Test();
         Transaction transaction = null;
